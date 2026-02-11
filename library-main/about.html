@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .slider {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+        
+        .slider img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transform: scale(1);
+            transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+            z-index: 1;
+        }
+        
+        .slider img.active {
+            opacity: 1;
+            transform: scale(1.1);
+            z-index: 2;
+        }
+        
+        .slider img.outgoing {
+            opacity: 0;
+            transform: scale(0.9);
+            z-index: 0;
+        }
+        
+        .slider .prev,
+        .slider .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+            border: none;
+            font-size: 24px;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 3;
+        }
+        
+        .slider .prev {
+            left: 10px;
+        }
+        
+        .slider .next {
+            right: 10px;
+        }
+        
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .lightbox img {
+            max-width: 90%;
+            max-height: 80%;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        .button-group {
+            margin-top: 20px;
+        }
+        
+        .button-group a {
+            display: inline-block;
+            margin: 8px;
+            padding: 10px 20px;
+            background: #007acc;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .button-group a:hover {
+            background: #005f99;
+        }
+        
+        .social-icons {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #007acc;
+            font-size: 24px;
+            text-decoration: none;
+        }
+        
+        .qr-code {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .qr-code img {
+            width: 150px;
+            height: auto;
+        }
+        
+        .skills-animate {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 20px 0;
+            animation: fadeInUp 1s ease-in-out forwards;
+        }
+        
+        .skills-animate .bar {
+            background: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            width: 120px;
+            height: 140px;
+            text-align: center;
+            padding: 10px;
+            animation: scaleUp 0.6s ease-in-out;
+        }
+        
+        .skills-animate .bar .label {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .skills-animate .bar .fill {
+            height: 80px;
+            width: 80px;
+            margin: auto;
+            background: conic-gradient(#007acc calc(var(--percent) * 1%), #ccc 0);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #007acc;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes scaleUp {
+            0% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="about-container">
+        <div class="about-image">
+            <div class="slider" id="slider">
+                <img src="images/image4.jpg" class="slide active" onclick="openLightbox(this.src)" />
+                <img src="images/image1.jpg" class="slide" onclick="openLightbox(this.src)" />
+                <img src="images/image6.jpg" class="slide" onclick="openLightbox(this.src)" />
+                <img src="images/image7.jpg" class="slide" onclick="openLightbox(this.src)" />
+                <img src="images/image8.jpg" class="slide" onclick="openLightbox(this.src)" />
+                <img src="images/image9.jpg" class="slide" onclick="openLightbox(this.src)" />
+
+            </div>
+            <div class="about-content">
+                <h1>About the Project</h1>
+                <h2>Library Management System</h2>
+                <p>This Library Management System is a professional web-based platform designed to manage book inventory, student members, and issue/return operations efficiently. The system provides seamless user experience with login/signup functionality,
+                    dynamic book listings, member management, and secure data handling.</p>
+
+                <h3>👤 Creator</h3>
+                <p><strong>Ashutosh Kumar</strong> — A dedicated and enthusiastic developer with a passion for creating smart, responsive, and interactive web applications.</p>
+
+                <h3>🤝 Team Members Involved</h3>
+                <ul>
+                    <li><strong>Nikhil Kumar</strong></li>
+                    <li><strong>Kavindar Singh</strong></li>
+                    <li><strong>Gaurav Sharma</strong></li>
+                    <li><strong>Rakesh Choudhary</strong></li>
+                </ul>
+
+                <h3>📊 Technology Contribution</h3>
+                <div class="skills-animate">
+                    <div class="bar" style="--percent: 35">
+                        <div class="fill">35%</div>
+                        <div class="label">HTML</div>
+                    </div>
+                    <div class="bar" style="--percent: 25">
+                        <div class="fill">25%</div>
+                        <div class="label">CSS</div>
+                    </div>
+                    <div class="bar" style="--percent: 40">
+                        <div class="fill">40%</div>
+                        <div class="label">JavaScript</div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <a href="mailto:ashutoshkumarak843329@gmail.com" target="_blank">Email</a>
+                    <a href="tel:+919661625267">Phone</a>
+                    <a href="https://www.linkedin.com/in/ashutosh-kumar-91a666343/" target="_blank">LinkedIn</a>
+                </div>
+
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/ashutosh" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/ashutosh" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.twitter.com/ashutosh" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.linkedin.com/in/ashutoshkumar" target="_blank"><i class="fab fa-linkedin"></i></a>
+                </div>
+
+                <div class="qr-code">
+                    <p>Scan to view Certificate:</p>
+                    <img src="images\Intern Certify Certification.png" alt="QR Code to Portfolio">
+                </div>
+
+                <p>This is my internship certificate which we learned from web designing.</p>
+            </div>
+        </div>
+
+        <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+            <img id="lightbox-img" src="" />
+        </div>
+
+        <script>
+            let currentSlide = 0;
+            const slides = document.querySelectorAll(".slide");
+            let slideInterval;
+
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.remove("active", "outgoing");
+                    if (i === currentSlide) {
+                        slide.classList.add("outgoing");
+                    }
+                    if (i === index) {
+                        slide.classList.add("active");
+                    }
+                });
+                currentSlide = index;
+            }
+
+            function changeSlide(direction) {
+                let newIndex = currentSlide + direction;
+                if (newIndex < 0) newIndex = slides.length - 1;
+                if (newIndex >= slides.length) newIndex = 0;
+                showSlide(newIndex);
+            }
+
+            function startAutoSlide() {
+                slideInterval = setInterval(() => changeSlide(1), 4000);
+            }
+
+            function stopAutoSlide() {
+                clearInterval(slideInterval);
+            }
+
+            startAutoSlide();
+
+            const slider = document.getElementById('slider');
+            slider.addEventListener('mouseenter', stopAutoSlide);
+            slider.addEventListener('mouseleave', startAutoSlide);
+
+            function openLightbox(src) {
+                const lightbox = document.getElementById('lightbox');
+                const lightboxImg = document.getElementById('lightbox-img');
+                lightboxImg.src = src;
+                lightbox.style.display = 'flex';
+            }
+
+            function closeLightbox() {
+                document.getElementById('lightbox').style.display = 'none';
+            }
+        </script>
+</body>
+
+</html>

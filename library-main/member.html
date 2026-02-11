@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library Members</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            color: #f1f1f1;
+            margin: 0;
+        }
+        
+        header {
+            background-color: #152238;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+            color: #00c6ff;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            margin-top: 10px;
+        }
+        
+        nav ul li {
+            margin: 0 15px;
+        }
+        
+        nav ul li a {
+            color: #f1f1f1;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .members-section {
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .members-section h2 {
+            color: #00c6ff;
+            margin-bottom: 20px;
+        }
+        
+        form {
+            max-width: 500px;
+            margin: 0 auto 30px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 198, 255, 0.2);
+        }
+        
+        form label {
+            display: block;
+            margin-top: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        form input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: none;
+            margin-top: 5px;
+        }
+        
+        form button {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: #00c6ff;
+            color: #152238;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        form button:hover {
+            background: #009fd4;
+        }
+        
+        table {
+            width: 90%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        th {
+            background-color: #1a2a3a;
+            color: #00c6ff;
+        }
+        
+        tr:hover {
+            background-color: rgba(0, 198, 255, 0.1);
+        }
+        
+        footer {
+            background-color: #152238;
+            text-align: center;
+            padding: 15px 0;
+            color: #bbb;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Library Members</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="member.html">Members</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="members-section">
+        <h2>Manage Library Members</h2>
+        <form id="memberForm">
+            <label for="memberName">Member Name</label>
+            <input type="text" id="memberName" placeholder="Enter member name" required />
+
+            <label for="memberId">Member ID</label>
+            <input type="text" id="memberId" placeholder="Enter member ID" required />
+
+            <label for="department">Department</label>
+            <input type="text" id="department" placeholder="Enter department" required />
+
+            <button type="submit">Add Member</button>
+        </form>
+
+        <input type="text" id="memberSearch" placeholder="Search members by name..." style="margin-bottom: 15px; padding: 8px; width: 300px; border-radius: 6px; border: none;" />
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Member Name</th>
+                    <th>Member ID</th>
+                    <th>Department</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="memberTableBody">
+                <!-- Members will be dynamically loaded here -->
+            </tbody>
+        </table>
+    </section>
+    <script>
+        // Removed erroneous script block that referenced non-existent elements and incorrect API calls
+    </script>
+    <footer>
+        <p>&copy; 2025 Library Management System. All rights reserved.</p>
+    </footer>
+
+    <script src="member.js"></script>
+</body>
+
+</html>

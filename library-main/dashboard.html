@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Library Dashboard - Professional</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            margin-bottom: 20px;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 30px;
+            padding: 0;
+        }
+        
+        nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: #00c6ff;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            color: #00c6ff;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            flex-grow: 1;
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .form-section,
+        .logs-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            flex: 1 1 450px;
+            min-width: 320px;
+        }
+        
+        .form-section h2,
+        .logs-section h2 {
+            color: #00c6ff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        input,
+        select {
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+        }
+        
+        button {
+            padding: 12px;
+            background: #00c6ff;
+            border: none;
+            border-radius: 8px;
+            color: #0f2027;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #007acc;
+            color: white;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            color: white;
+        }
+        
+        th,
+        td {
+            padding: 12px 10px;
+            border: 1px solid #00c6ff;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #005f99;
+        }
+        
+        tbody tr:nth-child(even) {
+            background-color: rgba(0, 198, 255, 0.1);
+        }
+        
+        tbody tr.overdue {
+            background-color: rgba(255, 0, 0, 0.3);
+            font-weight: bold;
+        }
+        
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 16px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .logout-btn {
+            background: #ff5252;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            transition: background 0.3s;
+            z-index: 1100;
+        }
+        
+        .logout-btn:hover {
+            background: #e04848;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .form-section,
+            .logs-section {
+                width: 90%;
+                min-width: unset;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        // Check if user is logged in
+        if (!localStorage.getItem('activeUser')) {
+            window.location.href = 'loginfile.html';
+        }
+    </script>
+    <header>
+        <nav role="navigation" aria-label="Primary Navigation">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <button class="logout-btn" onclick="logout()">Logout</button>
+
+    <h1>Library Dashboard</h1>
+
+    <div class="container">
+        <section class="form-section" aria-labelledby="addBookHeading">
+            <h2 id="addBookHeading">Add New Book</h2>
+            <form id="addBookForm" aria-label="Add new book form">
+                <input type="text" id="title" name="title" placeholder="Book Title" required aria-required="true" />
+                <input type="text" id="author" name="author" placeholder="Author" required aria-required="true" />
+                <input type="number" id="year" name="year" placeholder="Year" min="1000" max="9999" required aria-required="true" />
+                <input type="text" id="genre" name="genre" placeholder="Genre" required aria-required="true" />
+                <button type="submit">Add Book</button>
+            </form>
+        </section>
+
+        <section class="form-section" aria-labelledby="searchBookHeading">
+            <h2 id="searchBookHeading">Search & Manage Books</h2>
+            <input type="text" id="searchInput" placeholder="Search books by title or author" aria-label="Search books" />
+            <table id="booksTable" aria-describedby="searchBookHeading" style="margin-top: 15px;">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Year</th>
+                        <th>Genre</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="booksList">
+                    <!-- Books will be populated here -->
+                </tbody>
+            </table>
+        </section>
+
+        <script>
+            // Search books in the booksList table
+            document.getElementById('searchInput').addEventListener('input', function() {
+                const filter = this.value.toLowerCase();
+                const rows = document.querySelectorAll('#booksList tr');
+                rows.forEach(row => {
+                    const title = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                    const author = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                    if (title.includes(filter) || author.includes(filter)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+
+            // Remove book function
+            async function removeBook(index) {
+                if (!confirm('Are you sure you want to remove this book?')) return;
+                try {
+                    const response = await fetch(`http://localhost:3000/books/${index}`, {
+                        method: 'DELETE'
+                    });
+                    const data = await response.json();
+                    showToast(data.message);
+                    loadBooks();
+                    loadIssuedBooks();
+                } catch (error) {
+                    console.error('Error removing book:', error);
+                    showToast('Failed to remove book.');
+                }
+            }
+        </script>
+
+        <section class="form-section" aria-labelledby="issueBookHeading">
+            <h2 id="issueBookHeading">Issue Book</h2>
+            <form id="issueBookForm" aria-label="Issue book form">
+                <select id="bookSelect" name="bookSelect" required aria-required="true">
+                    <option value="" disabled selected>Select Book to Issue</option>
+                </select>
+                <input type="text" id="studentName" name="studentName" placeholder="Student Name" required aria-required="true" />
+                <input type="text" id="libraryId" name="libraryId" placeholder="Library ID" required aria-required="true" />
+                <input type="email" id="studentEmail" name="studentEmail" placeholder="Student Email" required aria-required="true" />
+                <input type="date" id="issueDate" name="issueDate" required aria-required="true" />
+                <input type="date" id="returnDate" name="returnDate" required aria-required="true" />
+                <button type="submit">Issue Book</button>
+            </form>
+        </section>
+
+        <section class="form-section" aria-labelledby="searchStudentnameHeading">
+            <h2 id="searchStudentnameHeading">Search & Issued Books Log</h2>
+            <input type="text" id="studentSearch" placeholder="Search student name by Library ID or Issue Date" aria-label="Search student name" />
+            <table id="issuedBooksTable" aria-describedby="searchStudentnameHeading" style="margin-top: 15px;">
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Library ID</th>
+                        <th>Student Email</th>
+                        <th>Book Title</th>
+                        <th>Issue Date</th>
+                        <th>Return Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="issuedBooksList">
+                    <!-- Issued books will be populated here -->
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+    <script>
+        // Logout function
+        function logout() {
+            localStorage.removeItem('activeUser');
+            window.location.href = './loginfile.html';
+        }
+
+        // Show toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show';
+            setTimeout(() => {
+                toast.className = toast.className.replace('show', '');
+            }, 3000);
+        }
+
+        // Load books for issue form select dropdown and manage books list
+        async function loadBooks() {
+            const response = await fetch('http://localhost:3000/books');
+            const books = await response.json();
+
+            const bookSelect = document.getElementById('bookSelect');
+            bookSelect.innerHTML = `<option value="">📚 Select Book to Issue</option>`;
+
+            books.forEach((book, index) => {
+                const option = document.createElement('option');
+                option.value = book.title;
+                option.textContent = `${book.title} — ${book.author}, ${book.genre}, ${book.year}`;
+                bookSelect.appendChild(option);
+            });
+
+            // अगर आप table में भी books दिखाते हैं तो यहां भी update करें
+            const booksList = document.getElementById('booksList');
+            if (booksList) {
+                booksList.innerHTML = '';
+                books.forEach((book, index) => {
+                    booksList.innerHTML += `
+        <tr>
+          <td>${book.title}</td>
+          <td>${book.author}</td>
+          <td>${book.year}</td>
+          <td>${book.genre}</td>
+          <td><button onclick="removeBook(${index})">Remove ❌</button></td>
+        </tr>`;
+                });
+            }
+        }
+
+
+        // Add new book form submission
+        document.getElementById('addBookForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const title = this.title.value.trim();
+            const author = this.author.value.trim();
+            const year = this.year.value.trim();
+            const genre = this.genre.value.trim();
+
+            if (!title || !author || !year || !genre) {
+                showToast('Please fill all fields.');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/books', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title,
+                        author,
+                        year,
+                        genre
+                    })
+                });
+                const data = await response.json();
+                showToast(data.message);
+                this.reset();
+                await loadBooks(); // Refresh book list for issue form
+            } catch (error) {
+                console.error('Error adding book:', error);
+                showToast('Failed to add book.');
+            }
+        });
+
+        // Issue book form submission
+        document.getElementById('issueBookForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const bookTitle = this.bookSelect.value;
+            const studentName = this.studentName.value.trim();
+            const libraryId = this.libraryId.value.trim();
+            const studentEmail = this.studentEmail.value.trim();
+            const issueDate = this.issueDate.value;
+            const returnDate = this.returnDate.value;
+
+            if (!bookTitle || !studentName || !libraryId || !studentEmail || !issueDate || !returnDate) {
+                showToast('Please fill all fields.');
+                return;
+            }
+
+            try {
+                // 1. POST to issues
+                const response = await fetch('http://localhost:3000/issues', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        bookTitle,
+                        studentName,
+                        libraryId,
+                        studentEmail,
+                        issueDate,
+                        returnDate
+                    })
+                });
+
+                const data = await response.json();
+
+                // 2. Auto-delete book from books list after issue
+                const booksRes = await fetch('http://localhost:3000/books');
+                const books = await booksRes.json();
+                const bookToDelete = books.find(book => book.title === bookTitle);
+                if (bookToDelete) {
+                    await fetch(`http://localhost:3000/books/${bookToDelete.id}`, {
+                        method: 'DELETE'
+                    });
+                }
+
+                showToast('Book issued and removed from book list.');
+                this.reset();
+                loadBooks(); // Update books list
+                loadIssuedBooks(); // Update issued list
+            } catch (error) {
+                console.error('Error issuing book:', error);
+                showToast('Failed to issue book.');
+            }
+        });
+
+        // Load students for search and autofill
+        let students = [];
+        async function loadStudents() {
+            try {
+                const response = await fetch('http://localhost:3000/users');
+                students = await response.json();
+            } catch (error) {
+                console.error('Error loading students:', error);
+            }
+        }
+
+        // Search student input event
+        document.getElementById('studentSearch').addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            const resultsDiv = document.getElementById('studentSearchResults');
+            resultsDiv.innerHTML = '';
+            if (!query) {
+                resultsDiv.style.display = 'none';
+                return;
+            }
+            const matched = students.filter(s => s.id.toLowerCase().includes(query));
+            if (matched.length === 0) {
+                resultsDiv.style.display = 'none';
+                return;
+            }
+            matched.forEach(student => {
+                const div = document.createElement('div');
+                div.textContent = student.id;
+                div.style.padding = '5px 10px';
+                div.style.cursor = 'pointer';
+                div.addEventListener('click', () => {
+                    document.getElementById('studentSearch').value = student.id;
+                    document.getElementById('studentName').value = student.id;
+                    document.getElementById('libraryId').value = student.id; // Adjust if needed
+                    // Removed autofill of studentEmail as student.email is undefined
+                    // document.getElementById('studentEmail').value = student.email || '';
+                    resultsDiv.style.display = 'none';
+                });
+                resultsDiv.appendChild(div);
+            });
+            resultsDiv.style.display = 'block';
+        });
+        // Hide results when clicking outside
+        document.addEventListener('click', function(event) {
+            const resultsDiv = document.getElementById('studentSearchResults');
+            const searchInput = document.getElementById('studentSearch');
+            if (!resultsDiv.contains(event.target) && event.target !== searchInput) {
+                resultsDiv.style.display = 'none';
+            }
+        });
+
+        // Initial load of students
+        loadStudents();
+
+        // Load issued books and display in table
+        async function loadIssuedBooks() {
+            try {
+                const response = await fetch('http://localhost:3000/issues');
+                const issues = await response.json();
+                const tbody = document.getElementById('issuedBooksList');
+                tbody.innerHTML = '';
+
+                const today = new Date().toISOString().split('T')[0];
+
+                issues.forEach(issue => {
+                    const isOverdue = today > issue.returnDate;
+                    const tr = document.createElement('tr');
+                    if (isOverdue) {
+                        tr.classList.add('overdue');
+                        sendOverdueEmail(issue);
+                    }
+
+                    tr.innerHTML = `
+                        <td>${issue.studentName}</td>
+                        <td>${issue.libraryId}</td>
+                        <td>${issue.studentEmail}</td>
+                        <td>${issue.bookTitle}</td>
+                        <td>${issue.issueDate}</td>
+                        <td>${issue.returnDate}</td>
+                        <td>${isOverdue ? 'Overdue' : 'On Time'}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (error) {
+                console.error('Error loading issued books:', error);
+            }
+        }
+
+        // Search issued books by student name and display (updated to filter table rows directly)
+        document.getElementById('studentSearch').addEventListener('input', function() {
+            const filter = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#issuedBooksList tr');
+            rows.forEach(row => {
+                const studentName = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                const libraryId = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                const issueDate = row.querySelector('td:nth-child(5)').textContent.toLowerCase();
+                if (studentName.includes(filter) || libraryId.includes(filter) || issueDate.includes(filter)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Simulate sending email for overdue books
+        function sendOverdueEmail(issue) {
+            // This function can be replaced with actual email sending logic
+            console.log(`📧 Email sent to ${issue.studentEmail}: Dear ${issue.studentName}, please return the book "${issue.bookTitle}" as soon as possible.`);
+        }
+
+        // Initial load
+        loadBooks();
+        loadIssuedBooks();
+    </script>
+</body>
+
+</html>
